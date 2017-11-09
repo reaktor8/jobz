@@ -12,7 +12,10 @@
         <script src="{{ asset('js/moment.min.js') }}"></script>
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/alertify/alertify.min.css') }}" />
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/axios.min.js') }}"></script>
+        <script src="{{ asset('js/alertify.min.js') }}"></script>
         
         <script>
             globals = {
@@ -21,14 +24,26 @@
         </script>
     </head>
     <body>
-    
+
         <div id="job-app">
-            <job-list></job-list>
+            <job-app-header></job-app-header>
+            <div class="container">
+                <job-manager></job-manager>
+            </div>
         </div>
-        
+    
         <script src="{{ asset('js/vue.js') }}"></script>
         <script src="{{ asset('js/httpVueLoader.js') }}"></script>
         <script src="{{ asset('js/views/job-app.js') }}"></script>
         
     </body>
+    
+    <style>
+        /**
+         * being lazy... God forgive me 
+         */
+        .alertify-notifier {
+            color: white;
+        }
+    </style>
 </html>

@@ -28,7 +28,7 @@ module.exports = {
 	methods: {
 	},
 	created: function() {
-        console.log('here I am');
+        console.log('Initializing list');
 	}
 }
 </script>
