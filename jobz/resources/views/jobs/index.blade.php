@@ -8,12 +8,23 @@
         <title>Jobilla testing</title>
 
         <!-- Fonts -->
+        <script src="{{ asset('js/tether.min.js') }}"></script>
         <script src="{{ asset('js/moment.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         
+        <script>
+            globals = {
+                assetRoot: "{{ asset('js/') }}"
+            }
+        </script>
     </head>
     <body>
     
-        <div id="job-app"></div>
+        <div id="job-app">
+            <job-list></job-list>
+        </div>
         
         <script src="{{ asset('js/vue.js') }}"></script>
         <script src="{{ asset('js/httpVueLoader.js') }}"></script>

@@ -2,7 +2,7 @@
     <table>
         <thead>
             <tr>
-                <th></th>
+                <th>test</th>
                 <th></th>
                 <th></th>
                 <th></th>
