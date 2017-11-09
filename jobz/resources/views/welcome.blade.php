@@ -10,6 +10,8 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
+        <script src="{{ asset('js/httpVueLoader.js') }}"></script>
+        
         <!-- Styles -->
         <style>
             html, body {
@@ -77,6 +79,8 @@
                 </div>
             @endif
 
+            <example-component></example-component>
+            
             <div class="content">
                 <div class="title m-b-md">
                     Laravel
