@@ -1,7 +1,7 @@
 <template>
     <div>
-        <job-synchronizer @refresh-jobs="refreshJobs"></job-synchronizer>
-        <job-list :in-jobs="jobs"></job-list>
+        <job-synchronizer @refresh="refreshJobs" @mark-save-pending="markSavePending"></job-synchronizer>
+        <job-list :in-jobs="jobs" ref="jobList"></job-list>
     </div>
 </template>
 
@@ -17,8 +17,11 @@ module.exports = {
 		}
 	},
 	methods: {
+        markSavePending(boolPending) {
+            this.$refs.jobList.setSavePending(boolPending);
+        },
         refreshJobs(jobs) {
-            this.jobs = jobs;
+            this.$refs.jobList.setJobs(jobs);
         },
 	},
 	created: function() {

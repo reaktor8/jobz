@@ -42,6 +42,7 @@
         /**
          * being lazy... God forgive me 
          */
+         
         .alertify-notifier {
             color: white;
         }

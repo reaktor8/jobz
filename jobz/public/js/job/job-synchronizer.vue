@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <div class="row">
-            <button class="btn btn-success" @click="fetchJobs()">Fetch jobs from TE-Palvelut</button>
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-success" @click="fetchJobs()">Synkronoi TE-palvelun ilmoitukset tietokantaan</button>
         </div>
     </div>
 </template>
@@ -28,24 +28,29 @@ module.exports = {
                     alertify.error(error);
                 });
         },
+        setJobs(jobs) {
+            this.jobs = jobs;
+        },
         saveJobsToDB() {
             var me = this;
+            alertify.success('... tallennetaan tulokset tietokantaan...');
+
+            me.$emit('mark-save-pending', true);
+            
             axios.post("http://localhost/jobz/jobz/public/jobs", {
                 jobs: me.jobs
             })
             .then(function (response) {
-                alertify.success('... tallennetaan tulokset tietokantaan...');
+                alertify.success('... ja valmista tuli!');
+                me.$emit('mark-save-pending', false);
+                me.$emit('refresh', response.data);
             })
             .catch(function (error) {
                 alertify.error(error);
             });
         },
-        updateJobs() {
-            this.$emit('refresh-jobs',jobs);
-        }
 	},
 	created: function() {
-        console.log('Initializing list');
 	}
 }
 </script>

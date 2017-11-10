@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon ;
+use Illuminate\Support\Facades\Input;
 
 class JobsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. Uses following URL-parameters when provided: field, direction
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $jobs = \DB::table('job')->get();
+        $input = Input::all();
+        $field = isset($input['field']) ? $input['field'] : false;
+        $direction = isset($input['direction']) ? $input['direction'] : false;
+
+        $jobs = \App\Job::getAll($field, $direction);
+        
         return response()->json($jobs);
     }
 
@@ -29,7 +34,7 @@ class JobsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stores array of job objects based on model provided by TE-palvelut. Note: Job is not strongly typed. Finally returns all the jobs available in database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -37,25 +42,15 @@ class JobsController extends Controller
     public function store(Request $request)
     {
         $jobs = json_decode($request->getContent(),true);
+        
         foreach ($jobs['jobs'] as $job) {
-            $jobs = \DB::table('job')->where([
-                ['job_title', 'like', $job['otsikko']],
-                ['created_at', '=', Carbon::parse($job['ilmoituspaivamaara'])],
-                ['company', '=', $job['tyonantajanNimi']],
-            ])->get();
+            $existingJobs = \App\Job::checkForExisting($job);
 
-            if(count($jobs) == 0) {
-                \DB::table('job')->insert(
-                    [
-                        'job_title' => $job['otsikko'], 
-                        'description' => $job['kuvausteksti'], 
-                        'created_at' => Carbon::parse($job['ilmoituspaivamaara']), 
-                        'company' => $job['tyonantajanNimi'], 
-                    ]
-                );
+            if(count($existingJobs) == 0) {
+                $result = \App\Job::insertTeJob($job);
             }
         }
-        $jobs = \DB::table('job')->get();
+        $jobs = \App\Job::getAll();
         return response()->json($jobs);
     }
 
