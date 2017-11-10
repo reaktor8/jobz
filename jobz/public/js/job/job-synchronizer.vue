@@ -35,7 +35,6 @@ module.exports = {
             })
             .then(function (response) {
                 alertify.success('... tallennetaan tulokset tietokantaan...');
-                console.log(response);
             })
             .catch(function (error) {
                 console.log(error);

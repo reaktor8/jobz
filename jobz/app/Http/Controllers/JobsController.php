@@ -37,14 +37,22 @@ class JobsController extends Controller
     {
         $jobs = json_decode($request->getContent(),true);
         foreach ($jobs['jobs'] as $job) {
-            \DB::table('job')->insert(
-                [
-                    'job_title' => $job['otsikko'], 
-                    'description' => $job['kuvausteksti'], 
-                    'created_at' => Carbon::parse($job['ilmoituspaivamaara']), 
-                    'company' => $job['tyonantajanNimi'], 
-                ]
-            );
+            $jobs = \DB::table('job')->where([
+                ['job_title', 'like', $job['otsikko']],
+                ['created_at', '=', Carbon::parse($job['ilmoituspaivamaara'])],
+                ['company', '=', $job['tyonantajanNimi']],
+            ])->get();
+
+            if(count($jobs) == 0) {
+                \DB::table('job')->insert(
+                    [
+                        'job_title' => $job['otsikko'], 
+                        'description' => $job['kuvausteksti'], 
+                        'created_at' => Carbon::parse($job['ilmoituspaivamaara']), 
+                        'company' => $job['tyonantajanNimi'], 
+                    ]
+                );
+            }
         }
         $jobs = \DB::table('job')->get();
         return response()->json($jobs);
