@@ -10,6 +10,7 @@
 module.exports = {
 	data: function() {
 		return {
+            jobs: []
 		}
 	},
 	methods: {
@@ -17,7 +18,9 @@ module.exports = {
             var me = this;
             axios.get("https://paikat.te-palvelut.fi/tpt-api/tyopaikat?englanti=true")
                 .then(function (response) {
-                    var results = response.data.response.docs;
+                    var jobs = response.data.response.docs;
+                    
+                    me.jobs = jobs;
                     alertify.success('Haku onnistui...');
                     me.saveJobsToDB();
                 })
@@ -26,7 +29,10 @@ module.exports = {
                 });
         },
         saveJobsToDB() {
-            axios.post("http://localhost/jobz/jobz/public/jobs")
+            var me = this;
+            axios.post("http://localhost/jobz/jobz/public/jobs", {
+                jobs: me.jobs
+            })
             .then(function (response) {
                 alertify.success('... tallennetaan tulokset tietokantaan...');
                 console.log(response);

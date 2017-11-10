@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon ;
 
 class JobsController extends Controller
 {
@@ -34,7 +35,19 @@ class JobsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $jobs = json_decode($request->getContent(),true);
+        foreach ($jobs['jobs'] as $job) {
+            \DB::table('job')->insert(
+                [
+                    'job_title' => $job['otsikko'], 
+                    'description' => $job['kuvausteksti'], 
+                    'created_at' => Carbon::parse($job['ilmoituspaivamaara']), 
+                    'company' => $job['tyonantajanNimi'], 
+                ]
+            );
+        }
+        $jobs = \DB::table('job')->get();
+        return response()->json($jobs);
     }
 
     /**
