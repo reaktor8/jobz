@@ -14,7 +14,8 @@ class JobsController extends Controller
      */
     public function index()
     {
-        return view('jobs/index');
+        $jobs = \DB::table('job')->get();
+        return response()->json($jobs);
     }
 
     /**

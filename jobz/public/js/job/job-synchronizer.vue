@@ -37,8 +37,11 @@ module.exports = {
                 alertify.success('... tallennetaan tulokset tietokantaan...');
             })
             .catch(function (error) {
-                console.log(error);
+                alertify.error(error);
             });
+        },
+        updateJobs() {
+            this.$emit('refresh-jobs',jobs);
         }
 	},
 	created: function() {

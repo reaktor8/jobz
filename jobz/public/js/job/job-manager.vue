@@ -1,7 +1,7 @@
 <template>
     <div>
-        <job-synchronizer></job-synchronizer>
-        <job-list></job-list>
+        <job-synchronizer @refresh-jobs="refreshJobs"></job-synchronizer>
+        <job-list :in-jobs="jobs"></job-list>
     </div>
 </template>
 
@@ -13,9 +13,13 @@ module.exports = {
     },
 	data: function() {
 		return {
+            jobs: []
 		}
 	},
 	methods: {
+        refreshJobs(jobs) {
+            this.jobs = jobs;
+        },
 	},
 	created: function() {
         alertify.success('Initializing manager');
